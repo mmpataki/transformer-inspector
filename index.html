@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>nanoGPT Signal Lab</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="page-header panel">
+        <div class="header-copy">
+          <p class="eyebrow">nanoGPT inspector</p>
+          <h1>Signal Lab</h1>
+        </div>
+        <label class="dropzone header-dropzone" id="dropzone">
+          <input id="bundle-input" type="file" accept=".ngviz,.bin,.dat,.bundle" />
+          <span class="dropzone-title">Drop a converted bundle</span>
+          <span class="dropzone-subtitle">or click to browse</span>
+        </label>
+        <div class="header-summary" id="model-summary">
+          <div class="summary-empty">No bundle loaded</div>
+        </div>
+      </header>
+
+      <section class="control-panel panel">
+        <div class="panel-header">
+          <h2>Step Console</h2>
+          <div class="run-summary compact-summary" id="run-summary"><span>Load a bundle to begin.</span></div>
+          <div class="status-pill" id="status-pill">Idle</div>
+        </div>
+        <div class="console-controls">
+          <label class="field prompt-field">
+            <span>Prompt</span>
+            <textarea id="prompt-input" rows="4" placeholder="Type a prompt or, if no tokenizer was exported, enter token IDs like 12, 91, 7"></textarea>
+          </label>
+          <div class="controls-grid">
+            <label class="field compact-field">
+              <span>Temperature</span>
+              <input id="temperature-input" type="number" min="0.01" step="0.05" value="1.0" />
+            </label>
+            <label class="field compact-field">
+              <span>Top-K</span>
+              <input id="topk-input" type="number" min="0" step="1" value="0" />
+            </label>
+            <label class="field compact-field">
+              <span>Strategy</span>
+              <select id="strategy-input">
+                <option value="argmax">Argmax</option>
+                <option value="sample">Sample</option>
+              </select>
+            </label>
+            <label class="field compact-field">
+              <span>Seed</span>
+              <input id="seed-input" type="number" step="1" value="1337" />
+            </label>
+            <div class="button-row inline-buttons">
+              <button id="step-button" class="primary-button">Step Once</button>
+              <button id="reset-button" class="ghost-button">Reset Trace</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <main class="workspace">
+        <section class="diagram-panel panel">
+          <div class="panel-header">
+            <h2>Model Diagram</h2>
+            <div class="diagram-caption">Vertical execution path</div>
+          </div>
+          <div class="diagram-scroll" id="diagram"></div>
+        </section>
+
+        <aside class="inspector-panel panel" id="inspector-panel">
+          <div class="panel-header">
+            <h2>Inspector</h2>
+            <div class="diagram-caption" id="inspector-hint">Select a model element</div>
+          </div>
+          <div id="inspector-content" class="inspector-content">
+            <div class="empty-state">
+              <h3>No trace selected</h3>
+              <p>Run one step, then click a node in the diagram to inspect tensors, vectors, heatmaps, and probabilities.</p>
+            </div>
+          </div>
+        </aside>
+      </main>
+
+      <div class="plot-modal hidden" id="plot-modal" aria-hidden="true">
+        <div class="plot-backdrop" id="plot-backdrop"></div>
+        <div class="plot-dialog">
+          <div class="plot-dialog-header">
+            <div>
+              <div class="plot-dialog-title" id="plot-title">Plot</div>
+              <div class="plot-dialog-meta" id="plot-meta"></div>
+            </div>
+            <button class="ghost-button plot-close" id="plot-close" type="button">Close</button>
+          </div>
+          <div class="plot-dialog-body" id="plot-body"></div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
